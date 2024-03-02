@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "railml-exporter"
+version = "0.1.0"
+description = ""
+authors = ["Julian B. <jeriox@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "railml_exporter"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+yaramo = {git = "https://github.com/simulate-digital-rail/yaramo"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
