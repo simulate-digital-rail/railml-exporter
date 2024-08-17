@@ -67,7 +67,9 @@ class Exporter:
             SubElement(ps, "intrinsicCoordinate", id=str(uuid4()), intrinsicCoord="0")
             SubElement(ps, "intrinsicCoordinate", id=str(uuid4()), intrinsicCoord="1")
             SubElement(self.level, "networkResource", ref=edge.uuid)
-            SubElement(self.tracks, "track", id=f"trc_{edge.uuid}", type="mainTrack")
+            track = SubElement(self.tracks, "track", id=f"trc_{edge.uuid}", type="mainTrack")
+            linearLocation = SubElement(track, "linearLocation", id=str(uuid4()))
+            SubElement(linearLocation, "associatedNetElement", netElementRef=ne.get("id"), intrinsicCoordBegin="0", intrinsicCoordEnd="1", keepsOrientation="true")
         for node in self.topology.nodes.values():
             if len(node.connected_nodes) == 3:
                 if not all([node.connected_on_left, node.connected_on_right, node.connected_on_head]):
@@ -108,6 +110,7 @@ class Exporter:
             if yaramo_signal.name:
                 SubElement(signal, "name", name=yaramo_signal.name, language="en")
             signal_il = SubElement(self.signalsIL, "signalIL", id=str(uuid4()))
+            SubElement(signal_il, "refersTo", ref=yaramo_signal.uuid)
             if function := self._get_signal_function(yaramo_signal):
                 signal_il.set("function", function)
 
